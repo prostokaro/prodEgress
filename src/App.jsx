@@ -8,20 +8,6 @@ import {ScrambledText} from "./utils/scrableText";
 export const App = () => {
     const [dataUsers, setDataUsers] = useState([]);
 
-    // подключить для бота
-
-    // const [initData, setInitData] = useState(null);
-
-    // useEffect(() => {
-    //     if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
-    //         const data = Telegram.WebApp.InitData;
-    //         setInitData(data);
-    //         console.log("InitData:", data);
-    //     } else {
-    //         console.error("Telegram WebApp не доступен");
-    //     }
-    // }, []);
-
     useEffect(() => {
         socket.onmessage = (event) => {
             const receivedMessage = JSON.parse(event.data);

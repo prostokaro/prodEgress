@@ -15,13 +15,24 @@ export const userObject = {
 
 const encodedUserData = encodeURIComponent(JSON.stringify(userObject));
 
+
+
 socket.onopen = function () {
 
-    socket.send(JSON.stringify({
-        type: "init_data",
-        data: `user=${encodedUserData}&chat_instance=3646087275955135803&chat_type=private&auth_date=${Math.floor(Date.now() / 1000)}&signature=Gp0bQ1hhTZQ-G4NQVL7wAH_oL8BTPg5JIH1AnFO_G-GcDe3kyMgVJp7o-wV3Ref7Y44u9VIEUema_gH_-F8OBA&hash=6e38803cb628c9eb3b273415ba869e65db43519690d6a98f78ca4b5b7023802a`,
-        inviter_id: null,
-    }));
+    if (window.Telegram?.WebApp) {
+        const webApp = window.Telegram.WebApp;
+        socket.send(JSON.stringify({
+            type: "init_data",
+            data: JSON.stringify(webApp.initData),
+            inviter_id: null,
+        }));
+    }
+
+    // socket.send(JSON.stringify({
+    //     type: "init_data",
+    //     data: `user=${encodedUserData}&chat_instance=3646087275955135803&chat_type=private&auth_date=${Math.floor(Date.now() / 1000)}&signature=Gp0bQ1hhTZQ-G4NQVL7wAH_oL8BTPg5JIH1AnFO_G-GcDe3kyMgVJp7o-wV3Ref7Y44u9VIEUema_gH_-F8OBA&hash=6e38803cb628c9eb3b273415ba869e65db43519690d6a98f78ca4b5b7023802a`,
+    //     inviter_id: null,
+    // }));
     console.log("Соединение установлено");
 };
 
