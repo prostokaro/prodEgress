@@ -8,7 +8,16 @@ import {ScrambledText} from "./utils/scrableText";
 export const App = () => {
     const [dataUsers, setDataUsers] = useState([]);
 
+    const [dataUser, setDataUser] = useState( '' );
+
     useEffect(() => {
+
+        if (window.Telegram?.WebApp) {
+            const webApp = window.Telegram.WebApp;
+            setDataUser(webApp.initDataUnsafe.user.username)
+            console.log(webApp.initDataUnsafe.user.username)
+        }
+
         socket.onmessage = (event) => {
             const receivedMessage = JSON.parse(event.data);
             console.log(receivedMessage);
@@ -29,9 +38,9 @@ export const App = () => {
     return (
         <div className="app">
             <header className="app__header">
-                <ScrambledText text={userObject.username} />
+                <ScrambledText text={dataUser} />
                 <ScrambledText
-                    text={`${dataUsers.find((user) => user.user_nick === userObject.username)?.daily_points || '0'}°`}
+                    text={`${dataUsers.find((user) => user.user_nick === dataUser)?.daily_points || '0'}°`}
                 />
             </header>
             <main className="app__users">
